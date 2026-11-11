@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window x:Class="ContadorCofres.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Configuración"
+        Height="500"
+        Width="420"
+        Left="20"
+        Top="20"
+        ResizeMode="NoResize"
+        PreviewKeyDown="SettingsWindow_PreviewKeyDown">
+    <Grid Margin="20">
+        <StackPanel>
+            <TextBlock Text="Configuración"
+                    FontSize="24"
+                    FontWeight="Bold"/>
+
+            <Button Content="Reiniciar contador"
+                    Click="ResetCounter_Click"
+                    Padding="12,8"
+                    Margin="0,20,0,0"/>
+            <TextBlock Text="Sumar una cantidad"
+                    Margin="0,16,0,4"/>
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBox x:Name="CustomAmountTextBox"
+                            Width="120"
+                            Margin="0,0,8,0"/>
+                    <Button Content="Sumar"
+                            Click="AddCustomAmount_Click"
+                            Padding="12,6"/>
+                </StackPanel>
+            <TextBlock Text="Tecla para sumar (+1)"
+                    Margin="0,16,0,4"/>
+
+            <Button x:Name="PlusKeyButton"
+                    Content="Numpad Add"
+                    Padding="10,6"
+                    HorizontalAlignment="Left"
+                    Click="CapturePlusKey_Click"/>
+
+            <TextBlock Text="Tecla para restar (-1)"
+                    Margin="0,12,0,4"/>
+
+            <Button x:Name="MinusKeyButton"
+                    Content="Numpad Subtract"
+                    Padding="10,6"
+                    HorizontalAlignment="Left"
+                    Click="CaptureMinusKey_Click"/>
+            <Button Content="Aplicar teclas"
+                    Click="ApplyHotkeys_Click"
+                    Padding="12,8"
+                    Margin="0,20,0,0"/>
+        </StackPanel>
+    </Grid>
+</Window>
