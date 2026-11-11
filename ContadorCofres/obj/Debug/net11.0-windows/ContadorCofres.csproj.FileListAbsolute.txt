@@ -22,3 +22,4 @@ C:\Users\Usuario\Documents\Projects\ContadorFN\ContadorCofres\obj\Debug\net11.0-
 C:\Users\Usuario\Documents\Projects\ContadorFN\ContadorCofres\obj\Debug\net11.0-windows\ContadorCofres.genruntimeconfig.cache
 C:\Users\Usuario\Documents\Projects\ContadorFN\ContadorCofres\obj\Debug\net11.0-windows\ref\ContadorCofres.dll
 C:\Users\Usuario\Documents\Projects\ContadorFN\ContadorCofres\obj\Debug\net11.0-windows\Contador.EF4A70EE.Up2Date
+C:\Users\Usuario\Documents\Projects\ContadorFN\ContadorCofres\obj\Debug\net11.0-windows\ContadorCofres.sourcelink.json

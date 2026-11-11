@@ -1,5 +1,5 @@
 ﻿ContadorCofres
-1.0.0.0
+
 
 winexe
 C#
@@ -12,9 +12,9 @@ TRACE;DEBUG;NET;NET11_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_O
 C:\Users\Usuario\Documents\Projects\ContadorFN\ContadorCofres\App.xaml
 2-2121854466
 
-7-2083758518
+5-321371279
 21542388203
 MainWindow.xaml;SettingsWindow.xaml;
 
-True
+False
 

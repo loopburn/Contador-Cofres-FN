@@ -5,69 +5,60 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ContadorCofres"
         mc:Ignorable="d"
-        Title="Contador de Cofres 01" Height="200" Width="170"
+        Title="Contador de Cofres 01" Height="125" Width="170"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
         Topmost="True"
         WindowStyle="None">
     <Grid Background="#20242A">
-    <StackPanel Margin="20">
-        <Grid Margin="0,0,0,8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Margin="8,6,6,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
             <TextBlock Grid.Column="0"
-                       Text="Contador de cofres"
+                       Text="COFRES"
                        Foreground="White"
-                       FontSize="20"
+                       FontSize="12"
                        FontWeight="Bold"
                        VerticalAlignment="Center"
                        Cursor="SizeAll"
                        MouseLeftButtonDown="OverlayTitle_MouseLeftButtonDown"/>
 
             <Button Grid.Column="1"
-                    Content="X"
-                    Width="28"
-                    Height="28"
+                    Content="⚙"
+                    Width="26"
+                    Height="26"
                     Background="Transparent"
                     Foreground="White"
                     BorderThickness="0"
-                    FontWeight="Bold"
+                    ToolTip="Configuración"
+                    Click="OpenSettings_Click"/>
+
+            <Button Grid.Column="2"
+                    Content="X"
+                    Width="26"
+                    Height="26"
+                    Background="Transparent"
+                    Foreground="White"
+                    BorderThickness="0"
                     ToolTip="Cerrar"
                     Click="CloseOverlay_Click"/>
         </Grid>
 
-        <TextBlock x:Name="ChestCountText"
+        <TextBlock Grid.Row="1"
+                   x:Name="ChestCountText"
                    Text="0"
                    Foreground="White"
-                   FontSize="48"
+                   FontSize="42"
                    HorizontalAlignment="Center"
-                   Margin="0,12"/>
-
-        <StackPanel Orientation="Horizontal"
-                    HorizontalAlignment="Center">
-            <!-- ///<Button x:Name="IncrementButton"
-                    Click="IncrementButton_Click"
-                    Content="+1"
-                    Padding="16,8"
-                    Margin="4"/>
-            <Button x:Name="DecrementButton"
-                    Click="DecrementButton_Click"
-                    Content="-1"
-                    Padding="16,8"
-                    Margin="4"/>
-            <Button x:Name="ResetButton"
-                    Click="ResetButton_Click"
-                    Content="Reiniciar"
-                    Padding="12,8"
-                    Margin="4"/>/// -->
-            <Button Content="Configuración"
-                    Click="OpenSettings_Click"
-                    Padding="12,8"
-                    Margin="4"/>
-        </StackPanel>
-    </StackPanel>
-</Grid>
+                   VerticalAlignment="Center"/>
+    </Grid>
 </Window>

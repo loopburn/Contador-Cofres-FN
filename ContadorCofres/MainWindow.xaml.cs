@@ -1,52 +1,31 @@
-﻿using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-//chaty
+﻿using System.IO;
 using System.Runtime.InteropServices;
+using System.Windows;
+using System.Windows.Input;
 using System.Windows.Interop;
-
-using System.IO;
 
 namespace ContadorCofres;
 
-/// <summary>
-/// Interaction logic for MainWindow.xaml
-/// </summary>
-/// 
 
 public partial class MainWindow : Window{
-    //
     private static readonly string CounterDirectory = System.IO.Path.Combine(
     Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
     "ContadorCofres");
     private static readonly string CounterFilePath = System.IO.Path.Combine(CounterDirectory, "contador.txt");
-    //
     private static readonly string HotkeyFilePath =
     System.IO.Path.Combine(CounterDirectory, "atajos.txt");
 
     private HwndSource? _source;
     private bool _plusRegistered;
     private bool _minusRegistered;
-/// <summary>
-/// 
-/// </summary>
     private const int WM_HOTKEY = 0x0312;
     private const int HOTKEY_PLUS_ID = 1;
     private const int HOTKEY_MINUS_ID = 2;
 
     private const uint MOD_NOREPEAT = 0x4000;
 
-    //private const uint VK_ADD = 0x6B;
     private Key _plusKey = Key.Add;
     private Key _minusKey = Key.Subtract;
-    //private const uint VK_SUBTRACT = 0x6D;
 
     [DllImport("user32.dll", SetLastError = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
@@ -57,41 +36,17 @@ public partial class MainWindow : Window{
     [return: MarshalAs(UnmanagedType.Bool)]
     private static extern bool UnregisterHotKey(IntPtr hWnd, int id);
 
-    /// <summary>
-    /// Ultima edicion de codigo: 2024-06-10
-    /// </summary>
     private int _chestCount = 0;
 
-    private void IncrementButton_Click(object sender, RoutedEventArgs e)
-    {
-        AddToCounter(1);
-        //SaveCounter();
-    }
-
-    private void DecrementButton_Click(object sender, RoutedEventArgs e)
-    {
-        AddToCounter(-1); //DecrementCounter
-        //SaveCounter();
-    }
-
-    private void ResetButton_Click(object sender, RoutedEventArgs e)
-    {
-        ResetCounter();
-    }
 
     private void IncrementCount()
     {
-        _chestCount++;
-        ChestCountText.Text = _chestCount.ToString();
+        AddToCounter(1);
     }
 
     private void DecrementCount()
     {
-        if (_chestCount > 0)
-        {
-            _chestCount--;
-            ChestCountText.Text = _chestCount.ToString();
-        }
+        AddToCounter(-1);
     }
         public MainWindow()
         {
@@ -116,19 +71,6 @@ public partial class MainWindow : Window{
         _source.AddHook(HandleHotkeyMessage);
 
         TryRegisterHotkeys(_plusKey, _minusKey);
-        // _plusRegistered = RegisterHotKey(hwnd, HOTKEY_PLUS_ID, MOD_NOREPEAT, VK_ADD);
-        // if (!_plusRegistered)
-        // {
-        //     MessageBox.Show(
-        //         $"No se pudo registrar Numpad +. Error de Windows: {Marshal.GetLastWin32Error()}");
-        // }
-
-        // _minusRegistered = RegisterHotKey(hwnd, HOTKEY_MINUS_ID, MOD_NOREPEAT, VK_SUBTRACT);
-        // if (!_minusRegistered)
-        // {
-        //     MessageBox.Show(
-        //         $"No se pudo registrar Numpad -. Error de Windows: {Marshal.GetLastWin32Error()}");
-        // }
     }
 
     private IntPtr HandleHotkeyMessage(
@@ -140,13 +82,11 @@ public partial class MainWindow : Window{
             {
                 case HOTKEY_PLUS_ID:
                     IncrementCount();
-                    SaveCounter();
                     handled = true;
                     break;
 
                 case HOTKEY_MINUS_ID:
                     DecrementCount();
-                    SaveCounter();
                     handled = true;
                     break;
             }
@@ -157,18 +97,11 @@ public partial class MainWindow : Window{
 
     private void UnregisterGlobalHotkeys(object? sender, EventArgs e)
     {
-        var hwnd = new WindowInteropHelper(this).Handle;
         UnregisterCurrentHotkeys();
-        // if (_plusRegistered)
-        //     UnregisterCurrentHotkeys();
-
-        // if (_minusRegistered)
-        //     UnregisterCurrentHotkeys();
 
         _source?.RemoveHook(HandleHotkeyMessage);
     }
 
-    //
 
         private void LoadCounter()
     {
@@ -187,11 +120,9 @@ public partial class MainWindow : Window{
         }
         catch (FileNotFoundException)
         {
-            // Es normal que el archivo todavía no exista la primera vez.
         }
         catch (DirectoryNotFoundException)
         {
-            // También es normal que la carpeta aún no exista.
         }
         catch (IOException ex)
         {
@@ -360,11 +291,9 @@ private void LoadHotkeySettings()
     }
     catch (FileNotFoundException)
     {
-        // Normal la primera vez: todavía no hay teclas guardadas.
     }
     catch (DirectoryNotFoundException)
     {
-        // Normal la primera vez: la carpeta todavía no existe.
     }
     catch (IOException ex)
     {
@@ -405,13 +334,21 @@ private void SaveHotkeySettings()
 }
 private void AddToCounter(int amount)
 {
-    if (amount > int.MaxValue - _chestCount)
+    long newCount = (long)_chestCount + amount;
+
+    if (newCount > int.MaxValue)
     {
         MessageBox.Show("La cantidad excede el máximo permitido para el contador.");
         return;
     }
 
-    _chestCount += amount;
+    if (newCount < 0)
+        newCount = 0;
+
+    if (newCount == _chestCount)
+        return;
+
+    _chestCount = (int)newCount;
     ChestCountText.Text = _chestCount.ToString();
     SaveCounter();
 }
