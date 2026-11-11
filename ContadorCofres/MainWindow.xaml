@@ -21,6 +21,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
             <TextBlock Grid.Column="0"
@@ -41,8 +42,18 @@
                     BorderThickness="0"
                     ToolTip="Configuración"
                     Click="OpenSettings_Click"/>
-
+        
             <Button Grid.Column="2"
+                    Content="?"
+                    Width="26"
+                    Height="26"
+                    Background="Transparent"
+                    Foreground="White"
+                    BorderThickness="0"
+                    ToolTip="Info"
+                    Click="OpenDropInfo_Click"/>
+
+            <Button Grid.Column="3"
                     Content="X"
                     Width="26"
                     Height="26"

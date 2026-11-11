@@ -8,13 +8,6 @@ namespace ContadorCofres;
 
 
 public partial class MainWindow : Window{
-    private static readonly string CounterDirectory = System.IO.Path.Combine(
-    Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-    "ContadorCofres");
-    private static readonly string CounterFilePath = System.IO.Path.Combine(CounterDirectory, "contador.txt");
-    private static readonly string HotkeyFilePath =
-    System.IO.Path.Combine(CounterDirectory, "atajos.txt");
-
     private HwndSource? _source;
     private bool _plusRegistered;
     private bool _minusRegistered;
@@ -103,26 +96,23 @@ public partial class MainWindow : Window{
     }
 
 
-        private void LoadCounter()
+    private void LoadCounter()
     {
         try
         {
-            string savedValue = File.ReadAllText(CounterFilePath);
+            string? savedValue = CounterStorage.LoadCounter();
 
-            if (int.TryParse(savedValue, out int count) && count >= 0)
+            if (savedValue is not null)
             {
-                _chestCount = count;
+                if (int.TryParse(savedValue, out int count) && count >= 0)
+                {
+                    _chestCount = count;
+                }
+                else
+                {
+                    MessageBox.Show("El archivo guardado no contiene un contador válido. Se usará 0.");
+                }
             }
-            else
-            {
-                MessageBox.Show("El archivo guardado no contiene un contador válido. Se usará 0.");
-            }
-        }
-        catch (FileNotFoundException)
-        {
-        }
-        catch (DirectoryNotFoundException)
-        {
         }
         catch (IOException ex)
         {
@@ -140,8 +130,7 @@ public partial class MainWindow : Window{
     {
         try
         {
-            Directory.CreateDirectory(CounterDirectory);
-            File.WriteAllText(CounterFilePath, _chestCount.ToString());
+            CounterStorage.SaveCounter(_chestCount);
         }
         catch (IOException ex)
         {
@@ -273,7 +262,10 @@ private void LoadHotkeySettings()
 {
     try
     {
-        string[] values = File.ReadAllLines(HotkeyFilePath);
+        string[]? values = CounterStorage.LoadHotkeys();
+
+        if (values is null)
+            return;
 
         if (values.Length != 2 ||
             !Enum.TryParse<Key>(values[0], out Key plusKey) ||
@@ -288,12 +280,6 @@ private void LoadHotkeySettings()
 
         _plusKey = plusKey;
         _minusKey = minusKey;
-    }
-    catch (FileNotFoundException)
-    {
-    }
-    catch (DirectoryNotFoundException)
-    {
     }
     catch (IOException ex)
     {
@@ -316,12 +302,7 @@ private void SaveHotkeySettings()
 {
     try
     {
-        Directory.CreateDirectory(CounterDirectory);
-        File.WriteAllLines(HotkeyFilePath, new[]
-        {
-            _plusKey.ToString(),
-            _minusKey.ToString()
-        });
+        CounterStorage.SaveHotkeys(_plusKey.ToString(), _minusKey.ToString());
     }
     catch (IOException ex)
     {
@@ -360,6 +341,23 @@ private void OverlayTitle_MouseLeftButtonDown(object sender, MouseButtonEventArg
 private void CloseOverlay_Click(object sender, RoutedEventArgs e)
 {
     _settingsWindow?.Close();
+    _dropInfoWindow?.Close();
     Close();
 }
+
+private DropInfoWindow? _dropInfoWindow;
+
+private void OpenDropInfo_Click(object sender, RoutedEventArgs e)
+{
+    if (_dropInfoWindow is null || !_dropInfoWindow.IsVisible)
+    {
+        _dropInfoWindow = new DropInfoWindow { Owner = this };
+        _dropInfoWindow.Show();
+    }
+    else
+    {
+        _dropInfoWindow.Activate();
+    }
 }
+}
+

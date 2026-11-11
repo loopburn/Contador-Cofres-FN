@@ -1,0 +1,67 @@
+{
+  "items": [
+    {
+      "name": "Skin Dorada",
+      "normalDropChance": {
+        "numerator": 1,
+        "denominator": 1562500
+      },
+      "weeklyDropChance": {
+        "numerator": 1,
+        "denominator": 208333
+      },
+      "image": "Images/SkinDorada.jpg"
+    },
+    {
+      "name": "Token Pirata",
+      "normalDropChance": {
+        "numerator": 1,
+        "denominator": 137500
+      },
+      "weeklyDropChance": {
+        "numerator": 1,
+        "denominator": 91667
+      },
+      "image": "Images/Token.jpg"
+    },
+    {
+      "name": "Auto Dorado",
+      "normalDropChance": {
+        "numerator": 1,
+        "denominator": 7813
+      },
+      "weeklyDropChance": {
+        "numerator": 1,
+        "denominator": 781
+      },
+      "image": "Images/AutoDorado.jpg"
+    },
+    {
+      "name": "Mochila",
+      "normalDropChance": {
+        "numerator": 1,
+        "denominator": 568
+      },
+      "weeklyDropChance": null,
+      "image": "Images/MochilaDorada.jpg"
+    },
+    {
+      "name": "Cancion",
+      "normalDropChance": {
+        "numerator": 1,
+        "denominator": 391
+      },
+      "weeklyDropChance": null,
+      "image": "Images/Cancion.jpg"
+    },
+    {
+      "name": "Fondo de pantalla",
+      "normalDropChance": {
+        "numerator": 1,
+        "denominator": 272
+      },
+      "weeklyDropChance": null,
+      "image": "Images/Wallpaper.jpg"
+    }
+  ]
+}

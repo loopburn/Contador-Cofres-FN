@@ -1,0 +1,120 @@
+<Window x:Class="ContadorCofres.DropInfoWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Información de objetos"
+        Width="300"
+        MinHeight="120"
+        MaxHeight="1120"
+        SizeToContent="Height"
+        Topmost="True"
+        WindowStartupLocation="CenterOwner"
+        WindowStyle="None"
+        ResizeMode="NoResize">
+    <Grid Background="#20242A">
+        <!-- Margin="12" -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Margin="8,6,6,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0"
+                       Text="Posibles recompensas"
+                       Foreground="White"
+                       FontSize="22"
+                       FontWeight="Bold"
+                       VerticalAlignment="Center"
+                       Cursor="SizeAll"
+                       MouseLeftButtonDown="WindowTitle_MouseLeftButtonDown"/>
+
+            <Button Grid.Column="1"
+                    Content="X"
+                    Width="28"
+                    Height="28"
+                    Background="Transparent"
+                    Foreground="White"
+                    BorderThickness="0"
+                    ToolTip="Cerrar"
+                    Click="CloseWindow_Click"/>
+        </Grid>
+
+
+        <CheckBox x:Name="WeeklyChancesCheckBox"
+                  Grid.Row="1"
+                  Content="Usar chances semanales"
+                  Foreground="White"
+                  Margin="8,4"
+                  Click="WeeklyChancesCheckBox_Click"/>
+
+        <ScrollViewer Grid.Row="2"
+                      MaxHeight="1000"
+                      VerticalScrollBarVisibility="Auto">
+            <ItemsControl x:Name="DropItemsControl">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Expander IsExpanded="True"
+                                  Margin="6">
+                            <Expander.Header>
+                                <TextBlock Text="{Binding Name}"
+                                           Foreground="White"
+                                           FontWeight="Bold"
+                                           VerticalAlignment="Center"/>
+                            </Expander.Header>
+
+                            <Border Background="#30343A"
+                                    Padding="10">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="110"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid Grid.Column="0"
+                                          Width="100"
+                                          Height="100"
+                                          Background="#20242A">
+                                        <Image Source="{Binding Picture}"
+                                               Stretch="Uniform"
+                                               Margin="4"/>
+
+                                        <TextBlock Text="Imagen pendiente"
+                                                   Foreground="White"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Visibility"
+                                                            Value="Collapsed"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Picture}"
+                                                                     Value="{x:Null}">
+                                                            <Setter Property="Visibility"
+                                                                    Value="Visible"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </Grid>
+
+                                    <TextBlock Grid.Column="1"
+                                               Text="{Binding ProbabilityText}"
+                                               Foreground="#D0D0D0"
+                                               VerticalAlignment="Center"
+                                               Margin="12,0,0,0"/>
+                                </Grid>
+                            </Border>
+                        </Expander>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+
+    </Grid>
+</Window>
